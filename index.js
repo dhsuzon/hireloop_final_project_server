@@ -2,8 +2,9 @@ const Express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const { connectDB } = require("./config/db");
-const router = require("./routes/jobs");
+const jobsRouter = require("./routes/jobs");
 const companiesRoute = require("./routes/companies");
+const jobSeekarApplicationsRouter = require("./routes/jobSeekarApplications");
 
 const app = Express();
 app.use(Express.json());
@@ -12,8 +13,10 @@ app.use(cors());
 const PORT = process.env.PORT || 4000;
 const Localhost = "localhost";
 
-app.use("/api/jobs/", router);
+app.use("/api/jobs/", jobsRouter);
 app.use("/api/my/companies/", companiesRoute);
+app.use("/api/applications/", jobSeekarApplicationsRouter);
+
 connectDB();
 
 app.get("/", (req, res) => {

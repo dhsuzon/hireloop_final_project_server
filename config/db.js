@@ -28,5 +28,12 @@ const db = client.db("hireloop");
 const jobs = db.collection("jobs");
 const companies = db.collection("companies");
 const userCollection = db.collection("user");
+const jobSeekarApplications = db.collection("jobSeekarApplications");
 
-module.exports = { connectDB, jobs, companies, userCollection };
+module.exports = {
+  connectDB,
+  jobs,
+  companies,
+  userCollection,
+  jobSeekarApplications,
+};
