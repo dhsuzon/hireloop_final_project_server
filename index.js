@@ -5,6 +5,8 @@ const { connectDB } = require("./config/db");
 const jobsRouter = require("./routes/jobs");
 const companiesRoute = require("./routes/companies");
 const jobSeekarApplicationsRouter = require("./routes/jobSeekarApplications");
+const plansRouter = require("./routes/plans");
+const planSubscriptionRouter = require("./routes/subscriptions");
 
 const app = Express();
 app.use(Express.json());
@@ -16,6 +18,8 @@ const Localhost = "localhost";
 app.use("/api/jobs/", jobsRouter);
 app.use("/api/my/companies/", companiesRoute);
 app.use("/api/applications/", jobSeekarApplicationsRouter);
+app.use("/api/plans/", plansRouter);
+app.use("/api/subscriptions/", planSubscriptionRouter);
 
 connectDB();
 

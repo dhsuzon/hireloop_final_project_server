@@ -24,11 +24,13 @@ async function connectDB() {
   }
 }
 
-const db = client.db("hireloop");
-const jobs = db.collection("jobs");
-const companies = db.collection("companies");
-const userCollection = db.collection("user");
-const jobSeekarApplications = db.collection("jobSeekarApplications");
+const database = client.db("hireloop");
+const jobs = database.collection("jobs");
+const companies = database.collection("companies");
+const userCollection = database.collection("user");
+const jobSeekarApplications = database.collection("jobSeekarApplications");
+const plans = database.collection("plans");
+const planSubscription = database.collection("planSubscription");
 
 module.exports = {
   connectDB,
@@ -36,4 +38,6 @@ module.exports = {
   companies,
   userCollection,
   jobSeekarApplications,
+  plans,
+  planSubscription,
 };
