@@ -17,7 +17,7 @@ const createNewJob = async (req, res) => {
 };
 
 // Get all jobs (optionally filtered by companyId / status)
-getAllJobsOptionallyFilerByCompanyId = async (req, res) => {
+const getAllJobsOptionallyFilerByCompanyId = async (req, res) => {
   try {
     const queryString = {};
 
@@ -44,12 +44,11 @@ getAllJobsOptionallyFilerByCompanyId = async (req, res) => {
     }
 
     if (req.query.page) {
-      const page = req.query.page;
-      const Limit = req.query.limit || 12;
+      const page = parseInt(req.query.page);
+      const Limit = parseInt(req.query.limit) || 12;
       const Skip = (page - 1) * Limit;
 
       const totaljobs = await jobs.countDocuments(queryString);
-
       const perjobs = await jobs
         .find(queryString)
         .skip(Skip)
@@ -58,11 +57,8 @@ getAllJobsOptionallyFilerByCompanyId = async (req, res) => {
       return res.status(200).json({ totaljobs, perjobs });
     }
 
-    const allResults = await jobs.find(queryString).toArray();
-    return res.status(200).json({
-      totaljobs: allResults.length,
-      perjobs: allResults,
-    });
+    const result = await jobs.find(queryString).toArray();
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
