@@ -58,8 +58,11 @@ getAllJobsOptionallyFilerByCompanyId = async (req, res) => {
       return res.status(200).json({ totaljobs, perjobs });
     }
 
-    const result = await jobs.find(queryString).toArray();
-    return res.status(200).json(result);
+    const allResults = await jobs.find(queryString).toArray();
+    return res.status(200).json({
+      totaljobs: allResults.length,
+      perjobs: allResults,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
