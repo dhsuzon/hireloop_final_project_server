@@ -1,4 +1,4 @@
-const { companies, userCollection } = require("../config/db");
+const { companies, userCollection, jobs } = require("../config/db");
 
 const { ObjectId } = require("mongodb");
 
@@ -21,9 +21,9 @@ const createNewCompany = async (req, res) => {
       createAt: new Date(),
     };
     const result = await companies.insertOne(newCompanyInfo);
-    res.status(201).json(result);
+    return res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 //  get recruiter related comapny
@@ -34,21 +34,37 @@ const getRecruiterComapany = async (req, res) => {
   }
   try {
     const result = await companies.findOne(query);
-    res.status(200).json(result || {});
+    return res.status(200).json(result || {});
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 //   get all db recruiter
 const getDbUserOrRecruiterFakeAPI = async (req, res) => {
   const result = await userCollection.find({}).skip(1).toArray();
-  res.status(200).json(result);
+  return res.status(200).json(result);
 };
 //  get the all company
+// const getRecruiterAllCompany = async (req, res) => {
+//   const result = await companies.find({}).toArray();
+//   res.status(200).json(result);
+// };
+
+// join compay collection with jobs collections on enfficent way
+
 const getRecruiterAllCompany = async (req, res) => {
-  const result = await companies.find({}).toArray();
-  res.status(200).json(result);
-}; //  update company status
+  const companyies = await companies.find({}).toArray();
+  for (const company of companyies) {
+    const filter = {
+      companyId: company._id.toString(),
+    };
+    const jobsCount = await jobs.countDocuments(filter);
+    company.applications = jobsCount;
+  }
+  return res.status(200).json(companyies);
+};
+
+//  update company status
 const updateCompanyStatus = async (req, res) => {
   const id = new ObjectId(req.params.id);
   updateInfo = req.body;
@@ -60,9 +76,11 @@ const updateCompanyStatus = async (req, res) => {
   };
   try {
     const updateResult = await companies.updateOne(filter, updateCompanyDoc);
-    res.status(200).json(updateResult);
+    return res.status(200).json(updateResult);
   } catch (error) {
-    res.status(500).json({ message: `internal server error ${error.message}` });
+    return res
+      .status(500)
+      .json({ message: `internal server error ${error.message}` });
   }
 };
 

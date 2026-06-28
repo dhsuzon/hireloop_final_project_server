@@ -31,6 +31,7 @@ const userCollection = database.collection("user");
 const jobSeekarApplications = database.collection("jobSeekarApplications");
 const plans = database.collection("plans");
 const planSubscription = database.collection("planSubscription");
+const sessionCollection = database.collection("session");
 
 module.exports = {
   connectDB,
@@ -40,4 +41,5 @@ module.exports = {
   jobSeekarApplications,
   plans,
   planSubscription,
+  sessionCollection,
 };

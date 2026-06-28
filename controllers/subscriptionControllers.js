@@ -18,9 +18,9 @@ const createPlanSubscription = async (req, res) => {
 
     const updateResult = await userCollection.updateOne(filter, updateDoc);
 
-    res.status(200).json(updateResult);
+    return res.status(200).json(updateResult);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
